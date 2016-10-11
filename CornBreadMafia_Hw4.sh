@@ -56,6 +56,18 @@ do
 	esac
 done
 
-
+if [[ $YEAR -eq 2015 ]]
+then
+	NEWYEAR=$((YEAR + 1)) 
+	wget "icarus.cs.weber.edu/~hvalle/cs3030/MOCK_DATA_$YEAR.tar.gz"
+	wget "icarus.cs.weber.edu/~hvalle/cs3030/MOCK_DATA_$NEWYEAR.tar.gz"
+elif [[ $YEAR -eq 2016 ]]
+then
+	NEWYEAR=$((YEAR - 1))
+	wget "icarus.cs.weber.edu/~hvalle/cs3030/MOCK_DATA_$YEAR.tar.gz"
+	wget "icarus.cs.weber.edu/~hvalle/cs3030/MOCK_DATA_$NEWYEAR.tar.gz"
+else
+	echo "Error, file with year input not found"
+fi
 
 exit 0
