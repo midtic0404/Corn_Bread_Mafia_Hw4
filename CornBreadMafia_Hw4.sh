@@ -67,14 +67,18 @@ fi
 # change to temp directory for wget action
 cd $tempDir
 
-if [[ $YEAR -eq 2015 && $(ls | wc -l) -ne 2 ]]  # don't wget if it's already done (just
-												# for when homework is in progress)
-												# later, take out everything after &&
+# remove anything that might already be in temp directory
+if [[ $(ls | wc -l) -gt 0 ]]
+then
+	rm *
+fi
+
+if [[ $YEAR -eq 2015 ]]
 then
 	NEWYEAR=$((YEAR + 1)) 
 	wget "icarus.cs.weber.edu/~hvalle/cs3030/MOCK_DATA_$YEAR.tar.gz"
 	wget "icarus.cs.weber.edu/~hvalle/cs3030/MOCK_DATA_$NEWYEAR.tar.gz"
-elif [[ $YEAR -eq 2016 && $(ls | wc -l) -ne 2 ]]  # same comment as above
+elif [[ $YEAR -eq 2016 ]]
 then
 	NEWYEAR=$((YEAR - 1))
 	wget "icarus.cs.weber.edu/~hvalle/cs3030/MOCK_DATA_$YEAR.tar.gz"
@@ -90,4 +94,14 @@ do
 	gunzip < $file | tar xvf -
 done
 
+# change to one directory level up
+cd ..
+
+# make output file
+newOutput=newOutput.csv
+
+# write filtered output to new output file
+./runAwkOnAll_MOCK_DATA.sh >> $newOutput 
+
+echo "New output file is $newOutput"
 exit 0
