@@ -17,11 +17,10 @@
 
 
 
-# works if this script is in same folder as the MOCK_DATA files.
 
-for file in $(ls MOCK*)
+for file in $(ls temp/MOCK*)
 do
-	awk -f testHw.awk $file
+	awk -f printCanadianFemales.awk $file
 done
 
 exit 0
