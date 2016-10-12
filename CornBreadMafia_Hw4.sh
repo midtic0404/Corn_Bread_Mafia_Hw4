@@ -39,6 +39,11 @@ do
 	case $opt in
 		y)
 			YEAR=$OPTARG
+			if [[ $YEAR -ne 2015 && $YEAR -ne 2016 ]]
+			then
+				echo "Invalid year.  Enter 2015 or 2016."
+				exit 3
+			fi
 			;;
 		e)
 			email=$OPTARG
