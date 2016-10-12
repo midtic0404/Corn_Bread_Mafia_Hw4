@@ -122,4 +122,23 @@ echo -n "renaming newOutput.csv.gz to "
 mv newOutput.csv.gz $zipFileName
 echo $zipFileName
 
+
+# set user name, password, and target directory according to user's arguments
+if [[ -n $user && -n $passwd ]]
+then
+	targetDir="~"
+else
+	user="anonymous"
+	passwd="password"
+	targetDir="MockData"
+fi
+
+ftp -inv 137.190.19.86 <<EOF
+user $user $passwd
+cd $targetDir
+put $zipFileName
+bye
+EOF
+
+
 exit 0
