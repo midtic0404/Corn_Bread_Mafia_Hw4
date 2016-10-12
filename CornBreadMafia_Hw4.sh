@@ -56,12 +56,25 @@ do
 	esac
 done
 
-if [[ $YEAR -eq 2015 ]]
+# make temp directory if it doesn't already exist
+tempDir=temp
+
+if [[ ! -d $tempDir ]]
+then
+	mkdir $tempDir
+fi
+
+# change to temp directory for wget action
+cd $tempDir
+
+if [[ $YEAR -eq 2015 && $(ls | wc -l) -ne 2 ]]  # don't wget if it's already done (just
+												# for when homework is in progress)
+												# later, take out everything after &&
 then
 	NEWYEAR=$((YEAR + 1)) 
 	wget "icarus.cs.weber.edu/~hvalle/cs3030/MOCK_DATA_$YEAR.tar.gz"
 	wget "icarus.cs.weber.edu/~hvalle/cs3030/MOCK_DATA_$NEWYEAR.tar.gz"
-elif [[ $YEAR -eq 2016 ]]
+elif [[ $YEAR -eq 2016 && $(ls | wc -l) -ne 2 ]]  # same comment as above
 then
 	NEWYEAR=$((YEAR - 1))
 	wget "icarus.cs.weber.edu/~hvalle/cs3030/MOCK_DATA_$YEAR.tar.gz"
@@ -69,5 +82,12 @@ then
 else
 	echo "Error, file with year input not found"
 fi
+
+# unzip and extract tar.gz files in /temp
+for file in $(ls)
+do
+	echo "Extracting $file"
+	gunzip < $file | tar xvf -
+done
 
 exit 0
