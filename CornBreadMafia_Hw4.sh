@@ -133,6 +133,7 @@ else
 	targetDir="MockData"
 fi
 
+# upload file to ftp server
 ftp -inv 137.190.19.86 <<EOF
 user $user $passwd
 cd $targetDir
@@ -140,5 +141,7 @@ put $zipFileName
 bye
 EOF
 
+# cleanup:  remove temp file
+rm -r $tempDir
 
 exit 0
