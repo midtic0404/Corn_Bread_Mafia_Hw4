@@ -103,5 +103,23 @@ newOutput=newOutput.csv
 # write filtered output to new output file
 ./runAwkOnAll_MOCK_DATA.sh >> $newOutput 
 
-echo "New output file is $newOutput"
+echo "Writing output file $newOutput..."
+
+# get date/time fields for naming zipped file in next step:
+
+YYYY=`date +%Y`
+MM=`date +%m`
+DD=`date +%d`
+HH=`date +%H`
+mm=`date +%M`
+zipFileName="MOCK_DATA_FEMALE_CANADA_${YYYY}_${MM}_${DD}_${HH}:${mm}.zip"
+
+# zip the output file:
+gzip -v newOutput.csv
+
+# rename zipped file:
+echo -n "renaming newOutput.csv.gz to "
+mv newOutput.csv.gz $zipFileName
+echo $zipFileName
+
 exit 0
