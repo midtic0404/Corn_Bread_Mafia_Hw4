@@ -149,4 +149,8 @@ EOF
 # cleanup:  remove temp file
 rm -r $tempDir
 
+# send email about successful file transfer
+
+mail -s "Successful file transfer" $email <<< "Successfully transferred file to FTP 137.190.19.86 server."
+
 exit 0
