@@ -26,6 +26,8 @@ usage(){
 	echo "YEAR and email options are required"
 }
 
+# check number of parameters:  there need to be
+# at least 4 to have both year and email
 if [[ ${#} -lt 4 ]] || [[ $1 == "--help" ]]
 then
 	usage
@@ -61,6 +63,11 @@ do
 	esac
 done
 
+
+
+
+
+
 # make temp directory if it doesn't already exist
 tempDir=temp
 
@@ -72,12 +79,21 @@ fi
 # change to temp directory for wget action
 cd $tempDir
 
+
 # remove anything that might already be in temp directory
 if [[ $(ls | wc -l) -gt 0 ]]
 then
 	rm *
 fi
 
+
+
+
+
+
+
+
+# retrieve MOCK DATA files using wget
 if [[ $YEAR -eq 2015 ]]
 then
 	NEWYEAR=$((YEAR + 1)) 
@@ -99,14 +115,24 @@ do
 	gunzip < $file | tar xvf -
 done
 
-# change to one directory level up
+
+
+
+
+
+
+
+# change to one directory level up from /temp
 cd ..
 
 # make output file
 newOutput=newOutput.csv
 
-# write filtered output to new output file
+# write filtered output to new output file (Canadian females)
 ./runAwkOnAll_MOCK_DATA.sh >> $newOutput 
+
+
+
 
 echo "Writing output file $newOutput..."
 
@@ -119,6 +145,8 @@ HH=`date +%H`
 mm=`date +%M`
 zipFileName="MOCK_DATA_FEMALE_CANADA_${YYYY}_${MM}_${DD}_${HH}:${mm}.zip"
 
+
+
 # zip the output file:
 gzip -v newOutput.csv
 
@@ -126,6 +154,11 @@ gzip -v newOutput.csv
 echo -n "renaming newOutput.csv.gz to "
 mv newOutput.csv.gz $zipFileName
 echo $zipFileName
+
+
+
+
+
 
 
 # set user name, password, and target directory according to user's arguments
@@ -146,8 +179,11 @@ put $zipFileName
 bye
 EOF
 
-# cleanup:  remove temp file
+
+
+# cleanup:  remove temp directory and copy of file in this directory
 rm -r $tempDir
+rm $zipFileName
 
 # send email about successful file transfer
 
